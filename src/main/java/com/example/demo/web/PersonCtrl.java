@@ -1,7 +1,7 @@
 package com.example.demo.web;
 
-import com.example.demo.dao.PersonMapper;
 import com.example.demo.domain.Person;
+import com.example.demo.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,12 +17,12 @@ import java.util.Map;
 @RequestMapping(("/person"))
 public class PersonCtrl {
     @Autowired
-    private PersonMapper personMapper;
+    private IPersonService personService;
 
     @RequestMapping("/query")
     public Map<String,Object> query(@RequestParam int id){
         Map<String,Object> retMap = new HashMap<>();
-        Person person = personMapper.selectByPrimaryKey(id);
+        Person person = personService.selectByPrimaryKey(id);
 
         retMap.put("person",person);
 
@@ -33,7 +33,7 @@ public class PersonCtrl {
     public Map<String,Object> add(Person person){
         Map<String,Object> retMap = new HashMap<>();
 
-        personMapper.insertSelective(person);
+        personService.insertSelective(person);
 
         retMap.put("personID",person.getId());
 
