@@ -21,6 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.7</java.version>
+		<skipTests>true</skipTests>
 	</properties>
 
 	<!-- Add typical dependencies for a web application -->
@@ -63,6 +64,15 @@
 	<build>
 		<!-- finalName的作用是指定打包后的包名。如果没有finalName，则包名默认为${artifactId}-${version} -->
 		<finalName>spring-boot-demo</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<!-- Package as an executable jar -->
 			<plugin>
