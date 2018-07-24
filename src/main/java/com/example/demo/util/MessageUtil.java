@@ -1,5 +1,7 @@
 package com.example.demo.util;
 
+import com.example.demo.bean.Item;
+import com.example.demo.bean.MpOutMsg;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -11,6 +13,8 @@ import org.dom4j.io.SAXReader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,6 +69,25 @@ public class MessageUtil {
 
     public static <T> String messageToXML(T t) {
         xstream.alias("xml", t.getClass());
+        //设置使用注解方式来处理别名信息
+        xstream.processAnnotations(t.getClass());
         return xstream.toXML(t);
+    }
+
+    public static void main(String[] args) {
+        MpOutMsg mpOutMsg = new MpOutMsg();
+        mpOutMsg.setCreateTime(new Date().getTime());
+        mpOutMsg.setMsgType("news");
+        mpOutMsg.setArticleCount(1);
+        List<Item> articleList = new ArrayList<>();
+        Item item = new Item();
+        item.setTitle("图文测试");
+        item.setDescription("发送消息“图文”两个字，就会收到这条图片消息，点击查看详情。");
+        item.setPicUrl("https://local.woxinshangdi.com/static/img/01.jpg");
+        item.setUrl("https://local.woxinshangdi.com");
+        articleList.add(item);
+        mpOutMsg.setArticles(articleList);
+        String outMsg = MessageUtil.messageToXML(mpOutMsg);
+        System.out.println(outMsg);
     }
 }

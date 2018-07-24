@@ -2,6 +2,7 @@ package com.example.demo.web;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.bean.Item;
 import com.example.demo.bean.MpInMsg;
 import com.example.demo.bean.MpOutMsg;
 import com.example.demo.constant.Constant;
@@ -18,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 接收微信公众号服务器发送过来的消息
@@ -91,13 +94,32 @@ public class WeChatController {
                 return "";
             }
         }else if("text".equals(mpInMsg.getMsgType())){ //接收普通文本消息
-            MpOutMsg mpOutMsg = new MpOutMsg();
-            mpOutMsg.setToUserName( mpInMsg.getFromUserName());
-            mpOutMsg.setFromUserName(mpInMsg.getToUserName());
-            mpOutMsg.setCreateTime(new Date().getTime());
-            mpOutMsg.setMsgType("text");
-            mpOutMsg.setContent("已收到你的消息："+mpInMsg.getContent());
-            return MessageUtil.messageToXML(mpOutMsg);
+            if(mpInMsg.getContent().contains("图文")){
+                MpOutMsg mpOutMsg = new MpOutMsg();
+                mpOutMsg.setToUserName( mpInMsg.getFromUserName());
+                mpOutMsg.setFromUserName(mpInMsg.getToUserName());
+                mpOutMsg.setCreateTime(new Date().getTime());
+                mpOutMsg.setMsgType("news");
+                mpOutMsg.setArticleCount(1);
+                List<Item> articleList = new ArrayList<>();
+                Item item = new Item();
+                item.setTitle("图文测试");
+                item.setDescription("发送消息“图文”两个字，就会收到这条图片消息，点击查看详情。");
+                item.setPicUrl("https://local.woxinshangdi.com/img/01.jpg");
+                item.setUrl("https://local.woxinshangdi.com");
+                articleList.add(item);
+                mpOutMsg.setArticles(articleList);
+                return MessageUtil.messageToXML(mpOutMsg);
+            }else{
+                MpOutMsg mpOutMsg = new MpOutMsg();
+                mpOutMsg.setToUserName( mpInMsg.getFromUserName());
+                mpOutMsg.setFromUserName(mpInMsg.getToUserName());
+                mpOutMsg.setCreateTime(new Date().getTime());
+                mpOutMsg.setMsgType("text");
+                mpOutMsg.setContent("已收到你的消息："+mpInMsg.getContent());
+                return MessageUtil.messageToXML(mpOutMsg);
+            }
+
         }
         return "";
     }
