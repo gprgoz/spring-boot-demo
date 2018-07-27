@@ -8,21 +8,19 @@ import com.example.demo.bean.MpOutMsg;
 import com.example.demo.constant.Constant;
 import com.example.demo.domain.MpUserInfo;
 import com.example.demo.service.IUserInfoService;
-import com.example.demo.util.EncryptUtil;
-import com.example.demo.util.HttpUtil;
-import com.example.demo.util.JedisUtil;
-import com.example.demo.util.MessageUtil;
+import com.example.demo.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * 接收微信公众号服务器发送过来的消息
@@ -55,8 +53,17 @@ public class WeChatController {
 
     @RequestMapping(value = "/weChat",method = RequestMethod.POST)
     @ResponseBody
-    public Object handleMessage(@RequestBody MpInMsg mpInMsg){
-        _log.info(mpInMsg.toString());
+    public Object handleMessage(HttpServletRequest request){
+        MpInMsg mpInMsg = null;
+        try {
+            HashMap map = MessageUtil.parseXML(request);
+            _log.info("接收到公众号消息：{}",map.toString());
+            mpInMsg = MapUtil.mapToObject(map,MpInMsg.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
         if("event".equals(mpInMsg.getMsgType())){ //事件类型
             //关于重试的消息排重，推荐使用FromUserName + CreateTime 排重。
             if(JedisUtil.get(mpInMsg.getFromUserName()+mpInMsg.getCreateTime()) != null){
@@ -92,6 +99,20 @@ public class WeChatController {
                 String openId = mpInMsg.getFromUserName();
                 userInfoService.delMpUserInfo(openId);
                 return "";
+            }else if("CLICK".equals(mpInMsg.getEvent())){ //点击事件
+                MpOutMsg mpOutMsg = new MpOutMsg();
+                mpOutMsg.setToUserName( mpInMsg.getFromUserName());
+                mpOutMsg.setFromUserName(mpInMsg.getToUserName());
+                mpOutMsg.setCreateTime(new Date().getTime());
+                mpOutMsg.setMsgType("text");
+                if(Constant.MENU_CLICK_FIRST.equals(mpInMsg.getEventKey())){
+                    mpOutMsg.setContent("今日没有歌！");
+                    return MessageUtil.messageToXML(mpOutMsg);
+                }else if(Constant.MENU_CLICK_SECOND.equals(mpInMsg.getEventKey())){
+                    mpOutMsg.setContent("感谢点赞！");
+                    return MessageUtil.messageToXML(mpOutMsg);
+                }
+                return "";
             }
         }else if("text".equals(mpInMsg.getMsgType())){ //接收普通文本消息
             if(mpInMsg.getContent().contains("图文")){
@@ -123,6 +144,5 @@ public class WeChatController {
         }
         return "";
     }
-
 
 }

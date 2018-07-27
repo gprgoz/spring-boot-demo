@@ -35,4 +35,10 @@ public class Constant {
      */
     public static final String MP_ACCESS_TOKEN = "mp_access_token";
 
+    /**
+     * 公众号菜单点击按钮值
+     */
+    public static final String MENU_CLICK_FIRST = "V1001_TODAY_MUSIC";
+    public static final String MENU_CLICK_SECOND = "V1001_GOOD";
+
 }
