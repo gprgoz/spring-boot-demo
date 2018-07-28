@@ -54,6 +54,7 @@ public class WeChatController {
     @RequestMapping(value = "/weChat",method = RequestMethod.POST)
     @ResponseBody
     public Object handleMessage(HttpServletRequest request){
+        _log.info("request.getRemoteAddr()={}",IpUtility.getRemoteAddr(request));
         MpInMsg mpInMsg = null;
         try {
             HashMap map = MessageUtil.parseXML(request);

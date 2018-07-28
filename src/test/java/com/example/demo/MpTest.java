@@ -11,4 +11,24 @@ public class MpTest {
         MpUtil.createMenu();
     }
 
+    @Test
+    public void getMenuTest(){
+        MpUtil.getMenu();
+    }
+
+    @Test
+    public void deleteMenuTest(){
+        MpUtil.deleteMenu();
+    }
+
+    @Test
+    public void getMenuConfigTest(){
+        MpUtil.getMenuConfig();
+    }
+
+    @Test
+    public void getWeiXinIpTest(){
+        MpUtil.getWeiXinIp();
+    }
+
 }
