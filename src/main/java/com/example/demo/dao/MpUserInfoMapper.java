@@ -53,4 +53,6 @@ public interface MpUserInfoMapper {
     int updateByPrimaryKey(MpUserInfo record);
 
     void deleteByOpenId(String openId);
+
+    MpUserInfo selectByOpenId(String openId);
 }

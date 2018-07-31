@@ -12,4 +12,5 @@ public interface IUserInfoService {
 
     void delMpUserInfo(String openId);
 
+    MpUserInfo getMpUserInfo(String openid);
 }

@@ -26,5 +26,10 @@ public class UserInfoServiceImpl implements IUserInfoService {
         mpUserInfoMapper.deleteByOpenId(openId);
     }
 
+    @Override
+    public MpUserInfo getMpUserInfo(String openid) {
+        return mpUserInfoMapper.selectByOpenId(openid);
+    }
+
 
 }

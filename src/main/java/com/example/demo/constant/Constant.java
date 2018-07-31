@@ -15,6 +15,12 @@ public class Constant {
     public static final String WX_MP_APPID = ConfigUtil.getValue("WX_MP_APPID");
     /**微信分配的公众号密钥*/
     public static final String WX_MP_SECRET = ConfigUtil.getValue("WX_MP_SECRET");
+    /**微信网页授权回调地址*/
+    public static final String CALL_BACK_URL = ConfigUtil.getValue("CALL_BACK_URL");
+    /**微信网页授权失败重定向到错误页面*/
+    public static final String OAUTH_FAIL_URL = ConfigUtil.getValue("OAUTH_FAIL_URL");
+    /**微信网页授权成功重定向到成功页面*/
+    public static final String OAUTH_SUCCESS_URL = ConfigUtil.getValue("OAUTH_SUCCESS_URL");
 
     /**
      * 0：成功    <br/>-1：代表未登录 <br/>其他值：代表失败
