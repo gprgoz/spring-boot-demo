@@ -12,8 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -23,7 +23,7 @@ import java.util.UUID;
 /**
  * Created by ZhaoYuJie on 2018/7/2.
  */
-@RestController
+@Controller
 @RequestMapping(("/login"))
 public class LoginCtrl {
     private static Logger _log = LoggerFactory
@@ -57,7 +57,8 @@ public class LoginCtrl {
         String state = request.getParameter("state");
 
         if (StringUtils.isBlank(code) || StringUtils.isBlank(state) || !state.equals(JedisUtil.get(request.getSession().getId()))) {
-            return "redirect:"+Constant.OAUTH_FAIL_URL;
+//            return "redirect:"+Constant.OAUTH_FAIL_URL;
+            return "login/fail";
         }
 
         String accessUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
@@ -88,7 +89,8 @@ public class LoginCtrl {
 
         request.setAttribute("mpUserInfo",mpUserInfo);
 
-        return "redirect:" +Constant.OAUTH_SUCCESS_URL;
+//        return "redirect:" +Constant.OAUTH_SUCCESS_URL;
+        return "login/success";
     }
 
 

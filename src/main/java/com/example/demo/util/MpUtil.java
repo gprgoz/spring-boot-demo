@@ -41,6 +41,11 @@ public class MpUtil {
                 "               \"name\":\"搜索\",\n" +
                 "               \"url\":\"http://www.soso.com/\"\n" +
                 "            },\n" +
+                "           {    \n" +
+                "               \"type\":\"view\",\n" +
+                "               \"name\":\"网页授权\",\n" +
+                "               \"url\":\"https://local.woxinshangdi.com/pages/oauth.html\"\n" +
+                "            },\n" +
                 "            {\n" +
                 "               \"type\":\"click\",\n" +
                 "               \"name\":\"赞一下我们\",\n" +
