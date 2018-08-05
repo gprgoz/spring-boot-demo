@@ -40,6 +40,10 @@ public class Constant {
      * 公众号的access_token
      */
     public static final String MP_ACCESS_TOKEN = "mp_access_token";
+    /**
+     * 公众号的jsapi_ticket
+     */
+    public static final String MP_JSAPI_TICKET = "mp_jsapi_ticket";
 
     /**
      * 公众号菜单点击按钮值

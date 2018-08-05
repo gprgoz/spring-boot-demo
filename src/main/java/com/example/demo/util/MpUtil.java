@@ -1,5 +1,7 @@
 package com.example.demo.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.constant.Constant;
 import com.example.demo.timer.MpAccessTokenRefreshTimer;
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +16,26 @@ public class MpUtil {
     private static Logger _log = LoggerFactory
             .getLogger(MpUtil.class);
 
+    public static void refreshAccessToken() {
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+ Constant.WX_MP_APPID+"&secret="+ Constant.WX_MP_SECRET;
+        String result = HttpUtil.sendGet(url);
+        _log.info("获取公众号access_token接口返回的结果：{}",result);
+
+        JSONObject jo = JSON.parseObject(result);
+        if(StringUtils.isNotBlank(jo.getString("access_token"))){
+            JedisUtil.set(Constant.MP_ACCESS_TOKEN,jo.getString("access_token"),jo.getIntValue("expires_in"));
+        }
+    }
+
+    public static void refreshTicket(String accessToken) {
+        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+accessToken+"&type=jsapi";
+        String result = HttpUtil.sendGet(url);
+        _log.info("获取公众号jsapi_ticket接口返回的结果：{}",result);
+        JSONObject jo = JSON.parseObject(result);
+        if(StringUtils.isNotBlank(jo.getString("ticket"))){
+            JedisUtil.set(Constant.MP_JSAPI_TICKET,jo.getString("ticket"),jo.getIntValue("expires_in"));
+        }
+    }
 
     /**
      * 创建自定义菜单

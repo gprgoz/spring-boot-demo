@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 /**
- * Created by ZhaoYuJie on 2018/7/2.
+ * 微信网页授权登陆
  */
 @Controller
 @RequestMapping(("/login"))
