@@ -95,7 +95,7 @@ public class WeChatController {
                 mpOutMsg.setCreateTime(new Date().getTime());
                 mpOutMsg.setMsgType("text");
                 mpOutMsg.setContent("感谢您关注我们的公众号！");
-                return MessageUtil.messageToXML(mpOutMsg);
+                return MessageUtil.beanToXML(mpOutMsg);
             }else if("unsubscribe".equals(mpInMsg.getEvent())){ //取消订阅（取消关注）
                 String openId = mpInMsg.getFromUserName();
                 userInfoService.delMpUserInfo(openId);
@@ -108,10 +108,10 @@ public class WeChatController {
                 mpOutMsg.setMsgType("text");
                 if(Constant.MENU_CLICK_FIRST.equals(mpInMsg.getEventKey())){
                     mpOutMsg.setContent("今日没有歌！");
-                    return MessageUtil.messageToXML(mpOutMsg);
+                    return MessageUtil.beanToXML(mpOutMsg);
                 }else if(Constant.MENU_CLICK_SECOND.equals(mpInMsg.getEventKey())){
                     mpOutMsg.setContent("感谢点赞！");
-                    return MessageUtil.messageToXML(mpOutMsg);
+                    return MessageUtil.beanToXML(mpOutMsg);
                 }
                 return "";
             }
@@ -131,7 +131,7 @@ public class WeChatController {
                 item.setUrl("https://local.woxinshangdi.com");
                 articleList.add(item);
                 mpOutMsg.setArticles(articleList);
-                return MessageUtil.messageToXML(mpOutMsg);
+                return MessageUtil.beanToXML(mpOutMsg);
             }else{
                 MpOutMsg mpOutMsg = new MpOutMsg();
                 mpOutMsg.setToUserName( mpInMsg.getFromUserName());
@@ -139,7 +139,7 @@ public class WeChatController {
                 mpOutMsg.setCreateTime(new Date().getTime());
                 mpOutMsg.setMsgType("text");
                 mpOutMsg.setContent("已收到你的消息："+mpInMsg.getContent());
-                return MessageUtil.messageToXML(mpOutMsg);
+                return MessageUtil.beanToXML(mpOutMsg);
             }
 
         }

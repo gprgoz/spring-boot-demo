@@ -26,6 +26,6 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public void insertSelective(Person person) {
         personMapper.insertSelective(person);
-        System.out.println(1/0);
+//        System.out.println(1/0);
     }
 }

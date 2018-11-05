@@ -18,13 +18,13 @@ public class MpAccessTokenRefreshTimer {
 
     @Scheduled(fixedRate = 3000000)
     public void refresh() {
-        try {
-            MpUtil.refreshAccessToken();
-            MpUtil.refreshTicket(JedisUtil.get(Constant.MP_ACCESS_TOKEN));
-        } catch (Exception e) {
-            _log.warn("MpAccessTokenRefreshTimer执行失败，{}",e.getMessage());
-            e.printStackTrace();
-        }
+//        try {
+//            MpUtil.refreshAccessToken();
+//            MpUtil.refreshTicket(JedisUtil.get(Constant.MP_ACCESS_TOKEN));
+//        } catch (Exception e) {
+//            _log.warn("MpAccessTokenRefreshTimer执行失败，{}",e.getMessage());
+//            e.printStackTrace();
+//        }
     }
 
 }

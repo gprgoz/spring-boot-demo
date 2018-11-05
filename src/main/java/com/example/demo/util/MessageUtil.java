@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MessageUtil {
+    private static String XML_TAG = "<?xml version='1.0' encoding='UTF-8'?>\n";
+
     public static HashMap parseXML(HttpServletRequest request) throws Exception {
         HashMap map = new HashMap();
         // 通过IO获得Document   
@@ -67,12 +69,23 @@ public class MessageUtil {
         }
     });
 
-    public static <T> String messageToXML(T t) {
-        xstream.alias("xml", t.getClass());
+    public static <T> String beanToXML(T t) {
         //设置使用注解方式来处理别名信息
         xstream.processAnnotations(t.getClass());
         return xstream.toXML(t);
     }
+
+    public static <T> String beanToXMLWithTag(T t) {
+        return XML_TAG + beanToXML(t);
+    }
+
+    public static <T> T xmlToBean(String xml, Class<T> clazz) {
+        //设置使用注解方式来处理别名信息
+        xstream.processAnnotations(clazz);
+        Object o = xstream.fromXML(xml);
+        return clazz.cast(o);
+    }
+
 
     public static void main(String[] args) {
         MpOutMsg mpOutMsg = new MpOutMsg();
@@ -87,7 +100,7 @@ public class MessageUtil {
         item.setUrl("https://local.woxinshangdi.com");
         articleList.add(item);
         mpOutMsg.setArticles(articleList);
-        String outMsg = MessageUtil.messageToXML(mpOutMsg);
+        String outMsg = MessageUtil.beanToXML(mpOutMsg);
         System.out.println(outMsg);
     }
 }

@@ -1,10 +1,12 @@
 package com.example.demo.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@XStreamAlias("xml")
 public class MpOutMsg {
     private String ToUserName; //接收方帐号（收到的OpenID）
     private String FromUserName;//  开发者微信号
