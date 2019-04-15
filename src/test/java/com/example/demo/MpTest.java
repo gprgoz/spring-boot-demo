@@ -1,10 +1,13 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.example.demo.constant.Constant;
 import com.example.demo.util.JedisUtil;
 import com.example.demo.util.MpUtil;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 
 public class MpTest {
@@ -48,4 +51,11 @@ public class MpTest {
         MpUtil.refreshTicket(accessToken);
     }
 
+    @Test
+    public void arrayListTest(){
+        ArrayList<String> list = new ArrayList<String>() {{
+            add("aa");
+        }};
+        System.out.println(JSON.toJSONString(list));
+    }
 }

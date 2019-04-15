@@ -8,6 +8,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -33,7 +34,13 @@ public class JedisUtil {
         cfg.setMaxWaitMillis(Long.parseLong(properties.getProperty("redis.maxWaitMillis")));
         cfg.setTestOnBorrow(Boolean.parseBoolean(properties.getProperty("redis.testOnBorrow")));
         cfg.setTestOnReturn(Boolean.parseBoolean(properties.getProperty("redis.testOnReturn")));
-        jedisPool = new JedisPool(cfg,properties.getProperty("redis.host"), Integer.parseInt(properties.getProperty("redis.port")));
+        String password = properties.getProperty("redis.password", null);
+        if(StringUtils.isNotBlank(password)){
+            jedisPool = new JedisPool(cfg,properties.getProperty("redis.host"), Integer.parseInt(properties.getProperty("redis.port")),2000, password,Integer.parseInt(properties.getProperty("redis.database","0")),null);
+        }else{
+            jedisPool = new JedisPool(cfg,properties.getProperty("redis.host"), Integer.parseInt(properties.getProperty("redis.port")));
+        }
+
     }
 
 
@@ -152,6 +159,31 @@ public class JedisUtil {
         });
     }
 
+    public static Long rpush(final String key,final int seconds, final String... values){
+        final Jedis jedis = getJedis();
+
+        return WrapRepeatUtil.wrapJedisTryCatch(jedis,jedisPool,new WrapRepeatCallBack<Long>() {
+            @Override
+            public Long callBack() throws Exception {
+                Long length = jedis.rpush(key,values);
+                if(seconds > 0){
+                    jedis.expire(key,seconds);
+                }
+                return length;
+            }
+        });
+    }
+
+    public static String lpop(final String key){
+        final Jedis jedis = getJedis();
+        return WrapRepeatUtil.wrapJedisTryCatch(jedis,jedisPool,new WrapRepeatCallBack<String>() {
+            @Override
+            public String callBack() throws Exception {
+                return jedis.lpop(key);
+            }
+        });
+    }
+
     /**
      * 获取列表长度，key为空时返回0
      * @param key
@@ -168,6 +200,19 @@ public class JedisUtil {
         });
 
     }
+
+    public static List<String> lrange(final String key, final long start, final long end){
+        final Jedis jedis = getJedis();
+
+        return WrapRepeatUtil.wrapJedisTryCatch(jedis,jedisPool,new WrapRepeatCallBack<List<String>>() {
+            @Override
+            public List<String> callBack() throws Exception {
+                return jedis.lrange(key,start,end);
+            }
+        });
+
+    }
+
 
     public static void main(String[] args) {
 

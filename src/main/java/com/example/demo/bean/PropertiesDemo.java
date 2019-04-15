@@ -1,5 +1,6 @@
 package com.example.demo.bean;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,8 @@ public class PropertiesDemo {
     private String username;
     private String password;
     private String driverClassName;
+    @Value("${db.aa.bb}zzz"+123)
+    private String aaBb;
 
     public String getUrl() {
         return url;
@@ -43,6 +46,14 @@ public class PropertiesDemo {
         this.driverClassName = driverClassName;
     }
 
+    public String getAaBb() {
+        return aaBb;
+    }
+
+    public void setAaBb(String aaBb) {
+        this.aaBb = aaBb;
+    }
+
     @Override
     public String toString() {
         return "PropertiesDemo{" +
@@ -50,6 +61,7 @@ public class PropertiesDemo {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", driverClassName='" + driverClassName + '\'' +
+                ", aaBb='" + aaBb + '\'' +
                 '}';
     }
 }
