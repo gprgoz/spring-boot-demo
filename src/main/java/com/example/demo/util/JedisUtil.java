@@ -10,6 +10,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Created by ZhaoYuJie on 2017/12/13.
@@ -184,6 +185,15 @@ public class JedisUtil {
         });
     }
 
+    public static List<String> blpop(final String key, final int timeout){
+        final Jedis jedis = getJedis();
+        return WrapRepeatUtil.wrapJedisTryCatch(jedis,jedisPool,new WrapRepeatCallBack<List<String>>() {
+            @Override
+            public List<String> callBack() throws Exception {
+                return jedis.blpop(timeout,key);
+            }
+        });
+    }
     /**
      * 获取列表长度，key为空时返回0
      * @param key
@@ -218,4 +228,14 @@ public class JedisUtil {
 
     }
 
+    public static Set<String> keys(final String key) {
+        final Jedis jedis = getJedis();
+
+        return WrapRepeatUtil.wrapJedisTryCatch(jedis,jedisPool,new WrapRepeatCallBack<Set<String>>() {
+            @Override
+            public Set<String> callBack() throws Exception {
+                return jedis.keys(key);
+            }
+        });
+    }
 }

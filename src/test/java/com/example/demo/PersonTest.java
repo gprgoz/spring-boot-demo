@@ -37,6 +37,13 @@ public class PersonTest {
         System.out.println(JSON.toJSONStringWithDateFormat(person,"yyyy-MM-dd HH:mm:ss",SerializerFeature.WriteDateUseDateFormat));
     }
 
+    @Test
+    public void updateTest(){
+        Person person = new Person();
+        person.setId(2);
+        person.setName("张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈张三哈哈");
+        personService.update(person);
+    }
 
 
 }

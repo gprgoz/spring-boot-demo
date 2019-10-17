@@ -9,4 +9,6 @@ public interface IPersonService {
     Person selectByPrimaryKey(int id);
 
     void insertSelective(Person person);
+
+    void update(Person person);
 }

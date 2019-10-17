@@ -28,4 +28,9 @@ public class PersonServiceImpl implements IPersonService {
         personMapper.insertSelective(person);
 //        System.out.println(1/0);
     }
+
+    @Override
+    public void update(Person person) {
+        personMapper.updateByPrimaryKeySelective(person);
+    }
 }

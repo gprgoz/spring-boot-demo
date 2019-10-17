@@ -1,7 +1,10 @@
 package com.example.demo.domain;
 
+import com.example.demo.bean.CustomDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -41,6 +44,8 @@ public class Person {
      * @mbggenerated Mon Jul 02 16:20:32 CST 2018
      */
     @ApiModelProperty("创建时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
     private Date createTime;
 
     /**

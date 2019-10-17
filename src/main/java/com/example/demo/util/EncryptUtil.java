@@ -1,6 +1,7 @@
 package com.example.demo.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.DigestUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -417,6 +418,7 @@ public class EncryptUtil {
 		String s = new String("123456");
 		System.out.println("原始：" + s);
 		System.out.println("MD5后：" + string2MD5(s));
+		System.out.println("spring工具MD5后："+DigestUtils.md5DigestAsHex(s.getBytes(CHARSET_UTF8)));
 //		System.out.println("加密的：" + convertMD5(s));
 //		System.out.println("解密的：" + convertMD5(convertMD5(s)));
 //		System.out.println("SHA1后：" + string2SHA1(s));
