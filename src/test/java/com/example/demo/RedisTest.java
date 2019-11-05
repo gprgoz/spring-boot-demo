@@ -161,5 +161,12 @@ public class RedisTest {
 
     }
 
+    @Test
+    public void test14(){
+        JedisUtil.set("name","tony");
+        String name = JedisUtil.get("name");
+        System.out.println(name);
+
+    }
 
 }
