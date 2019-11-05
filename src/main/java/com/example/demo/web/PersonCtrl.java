@@ -44,5 +44,4 @@ public class PersonCtrl {
         return ResHelper.success(person.getId());
     }
 
-
 }
