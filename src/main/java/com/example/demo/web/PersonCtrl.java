@@ -30,7 +30,7 @@ public class PersonCtrl {
     public Result<Person> query(@ApiParam(value = "用户ID",required = true)@RequestParam int id){
         Person person = personService.selectByPrimaryKey(id);
         if(person == null){
-            throw new ServiceException("查不到该用户哈哈");
+            throw new ServiceException("查不到该用户哈哈呵呵");
         }
 
         return ResHelper.success(person);
